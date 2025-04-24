@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Giám sát 2 ATS Realtime</title>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js">
+    function controlModbus(id, action) {
+      fetch("/api/modbus/control", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ generatorId: id, action: action })
+      })
+      .then(res => res.json())
+      .then(data => console.log("Control:", data))
+      .catch(err => console.error("Control error:", err));
+    }
+</script>
+
+  <style>
+    .controls {
+        margin-top: 10px;
+        display: flex;
+        gap: 10px;
+    }
+    .controls button {
+        padding: 8px 16px;
+        font-size: 14px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+    .controls .start {
+        background-color: #16a34a;
+        color: white;
+    }
+    .controls .stop {
+        background-color: #dc2626;
+        color: white;
+    }
+    .controls button:hover {
+        opacity: 0.85;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f5f9;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+    .container {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .card {
+      background-color: white;
+      border-radius: 12px;
+      padding: 20px;
+      width: 600px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    .card h2 {
+      margin-top: 0;
+    }
+    .phases {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .phase-col {
+      flex: 1;
+      padding: 10px;
+      margin: 0 6px;
+      background: #f9fafb;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .phase-col strong {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+    }
+    .phase-col p {
+      margin: 5px 0;
+      font-size: 14px;
+      color: #444;
+    }
+    .card p {
+      font-weight: bold;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Giám sát 2 ATS Realtime</h1>
+  <div class="container">
+    <div class="card">
+      <h2>Máy Phát 1</h2>
+      <h3>Nguồn A</h3>
+      <div class="phases">
+        <div class="phase-col">
+          <strong>Pha A</strong>
+          <p>UAB: <span id="gen1-uab1">-</span></p>
+          <p>UA: <span id="gen1-ua1">-</span></p>
+          <p>Góc pha: <span id="gen1-phaA1">-</span></p>
+        </div>
+        <div class="phase-col">
+          <strong>Pha B</strong>
+          <p>UBC: <span id="gen1-ubc1">-</span></p>
+          <p>UB: <span id="gen1-ub1">-</span></p>
+          <p>Góc pha: <span id="gen1-phaB1">-</span></p>
+        </div>
+        <div class="phase-col">
+          <strong>Pha C</strong>
+          <p>UCA: <span id="gen1-uca1">-</span></p>
+          <p>UC: <span id="gen1-uc1">-</span></p>
+          <p>Góc pha: <span id="gen1-phaC1">-</span></p>
+        </div>
+      </div>
+      <p>Tần số A: <span id="gen1-freq1">-</span> Hz</p>
+
+      <h3>Nguồn B</h3>
+      <div class="phases">
+        <div class="phase-col">
+          <strong>Pha A</strong>
+          <p>UAB: <span id="gen1-uab2">-</span></p>
+          <p>UA: <span id="gen1-ua2">-</span></p>
+          <p>Góc pha: <span id="gen1-phaA2">-</span></p>
+        </div>
+        <div class="phase-col">
+          <strong>Pha B</strong>
+          <p>UBC: <span id="gen1-ubc2">-</span></p>
+          <p>UB: <span id="gen1-ub2">-</span></p>
+          <p>Góc pha: <span id="gen1-phaB2">-</span></p>
+        </div>
+        <div class="phase-col">
+          <strong>Pha C</strong>
+          <p>UCA: <span id="gen1-uca2">-</span></p>
+          <p>UC: <span id="gen1-uc2">-</span></p>
+          <p>Góc pha: <span id="gen1-phaC2">-</span></p>
+        </div>
+      </div>
+      <p>Tần số B: <span id="gen1-freq2">-</span> Hz</p>
+    </div>
+
+    <div class="card">
+      <h2>Máy Phát 2</h2>
+      <h3>Nguồn A</h3>
+      <div class="phases">
+        <div class="phase-col">
+          <strong>Pha A</strong>
+          <p>UAB: <span id="gen2-uab1">-</span></p>
+          <p>UA: <span id="gen2-ua1">-</span></p>
+          <p>Góc pha: <span id="gen2-phaA1">-</span></p>
+        </div>
+        <div class="phase-col">
+          <strong>Pha B</strong>
+          <p>UBC: <span id="gen2-ubc1">-</span></p>
+          <p>UB: <span id="gen2-ub1">-</span></p>
+          <p>Góc pha: <span id="gen2-phaB1">-</span></p>
+        </div>
+        <div class="phase-col">
+          <strong>Pha C</strong>
+          <p>UCA: <span id="gen2-uca1">-</span></p>
+          <p>UC: <span id="gen2-uc1">-</span></p>
+          <p>Góc pha: <span id="gen2-phaC1">-</span></p>
+        </div>
+      </div>
+      <p>Tần số A: <span id="gen2-freq1">-</span> Hz</p>
+
+      <h3>Nguồn B</h3>
+      <div class="phases">
+        <div class="phase-col">
+          <strong>Pha A</strong>
+          <p>UAB: <span id="gen2-uab2">-</span></p>
+          <p>UA: <span id="gen2-ua2">-</span></p>
+          <p>Góc pha: <span id="gen2-phaA2">-</span></p>
+        </div>
+        <div class="phase-col">
+          <strong>Pha B</strong>
+          <p>UBC: <span id="gen2-ubc2">-</span></p>
+          <p>UB: <span id="gen2-ub2">-</span></p>
+          <p>Góc pha: <span id="gen2-phaB2">-</span></p>
+        </div>
+        <div class="phase-col">
+          <strong>Pha C</strong>
+          <p>UCA: <span id="gen2-uca2">-</span></p>
+          <p>UC: <span id="gen2-uc2">-</span></p>
+          <p>Góc pha: <span id="gen2-phaC2">-</span></p>
+        </div>
+      </div>
+      <p>Tần số B: <span id="gen2-freq2">-</span> Hz</p>
+    </div>
+  </div>
+
+  <script>
+    const socket = io();
+    socket.on("ats_data", (data) => {
+      updatePhaseData("gen1", data.gen1);
+      updatePhaseData("gen2", data.gen2);
+    });
+
+    function updatePhaseData(prefix, data) {
+      for (const [key, val] of Object.entries(data)) {
+        const el = document.getElementById(`${prefix}-${key}`);
+        if (el) el.textContent = val;
+      }
+    }
+  
+    function controlModbus(id, action) {
+      fetch("/api/modbus/control", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ generatorId: id, action: action })
+      })
+      .then(res => res.json())
+      .then(data => console.log("Control:", data))
+      .catch(err => console.error("Control error:", err));
+    }
+</script>
+
+</body>
+</html>

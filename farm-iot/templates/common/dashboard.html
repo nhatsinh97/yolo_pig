@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- nội dung -->
+
+<style>
+  .title-box {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px 20px;
+    border-radius: 8px;
+    z-index: 20;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .marker {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background-color: rgba(0, 123, 255, 0.9);
+    border-radius: 50%;
+    z-index: 10;
+    animation: none;
+  }
+
+  .marker-label {
+    position: absolute;
+    top: 20px;
+    left: -30px;
+    background: white;
+    color: #333;
+    padding: 4px 6px;
+    font-size: 12px;
+    border-radius: 4px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+  }
+
+  .marker.alert {
+    background-color: red;
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.3;
+    }
+  }
+</style>
+
+<div class="row">
+  <div class="col-md-12 col-sm-12 bg-image"
+    style="position: relative; min-height: 100vh; background: url('/static/view.jpg') no-repeat center center; background-size: cover;">
+    <div class="overlay-box title-box">
+      Farm Tây Ninh 4 – hệ thống giám sát trang trại thông minh
+    </div>
+
+    <!-- Bảng thông tin ATS1 - đặt góc dưới bên phải -->
+<div style="position: absolute; bottom: 2%; right: 2%; z-index: 15; width: 320px;">
+  <div class="p-2 shadow" style="background: #fff; border-radius: 10px; font-size: 12px; color: #333;">
+    <h6 class="text-center bg-success text-white py-1 rounded mb-2" style="font-size: 14px;">NGUỒN 1</h6>
+
+    <div class="mb-1">
+      <span class="text-primary fw-bold">Điện lưới ATS 1</span>
+      <div class="row">
+        <div class="col">
+          <strong>A</strong><br>
+          UAB: <span id="gen1-uab1">--</span><br>
+          UA: <span id="gen1-ua1">--</span><br>
+          Pha: <span id="gen1-phaA1">--</span>
+        </div>
+        <div class="col">
+          <strong>B</strong><br>
+          UBC: <span id="gen1-ubc1">--</span><br>
+          UB: <span id="gen1-ub1">--</span><br>
+          Pha: <span id="gen1-phaB1">--</span>
+        </div>
+        <div class="col">
+          <strong>C</strong><br>
+          UCA: <span id="gen1-uca1">--</span><br>
+          UC: <span id="gen1-uc1">--</span><br>
+          Pha: <span id="gen1-phaC1">--</span>
+        </div>
+      </div>
+      <small>Tần số: <span id="gen1-freq1">--</span> Hz</small>
+    </div>
+
+    <div class="mb-1">
+      <span class="text-primary fw-bold">Máy phát 1</span>
+      <div class="row">
+        <div class="col">
+          <strong>A</strong><br>
+          UAB: <span id="gen1-uab2">--</span><br>
+          UA: <span id="gen1-ua2">--</span><br>
+          Pha: <span id="gen1-phaA2">--</span>
+        </div>
+        <div class="col">
+          <strong>B</strong><br>
+          UBC: <span id="gen1-ubc2">--</span><br>
+          UB: <span id="gen1-ub2">--</span><br>
+          Pha: <span id="gen1-phaB2">--</span>
+        </div>
+        <div class="col">
+          <strong>C</strong><br>
+          UCA: <span id="gen1-uca2">--</span><br>
+          UC: <span id="gen1-uc2">--</span><br>
+          Pha: <span id="gen1-phaC2">--</span>
+        </div>
+      </div>
+      <small>Tần số: <span id="gen1-freq2">--</span> Hz</small>
+    </div>
+
+    <div class="mb-1">
+      <span class="text-primary fw-bold">Dòng tổng</span>
+      <div class="row">
+        <div class="col">A: <span id="gen1-ia">--</span> A</div>
+        <div class="col">B: <span id="gen1-ib">--</span> A</div>
+        <div class="col">C: <span id="gen1-ic">--</span> A</div>
+      </div>
+    </div>
+
+    <small class="text-muted">Cập nhật: <span id="updated-time-gen1">--</span></small>
+
+    <div class="d-flex flex-wrap justify-content-center gap-1 mt-2">
+      <button id="mode-status-1" class="btn btn-sm btn-outline-dark" onclick="toggleMode(1)">Chế độ: --</button>
+      <button class="btn btn-sm btn-outline-success" onclick="sendControl(1, 'auto_on')">AUTO</button>
+      <button class="btn btn-sm btn-outline-danger" onclick="sendControl(1, 'auto_off')">MAN</button>
+      <button class="btn btn-sm btn-primary" onclick="sendControl(1, 'start')">Khởi động</button>
+      <button class="btn btn-sm btn-danger" onclick="sendControl(1, 'stop')">Tắt</button>
+      <button class="btn btn-sm btn-warning" onclick="sendControl(1, 'open')">Cắt</button>
+      <button class="btn btn-sm btn-success" onclick="sendControl(1, 'close_a')">Đóng A</button>
+      <button class="btn btn-sm btn-success" onclick="sendControl(1, 'close_b')">Đóng B</button>
+    </div>
+  </div>
+</div>
+
+
+
+    <!-- Marker khác -->
+    <div class="marker" id="marker-ia2" style="top: 45%; left: 60%;">
+      <div class="marker-label">IA2: <span id="label-ia2">--</span> A</div>
+    </div>
+
+    <div class="marker" id="marker-clo" style="top: 29%; left: 55%;">
+      <div class="marker-label" id="label-clo">Clo: -- ppm</div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const socket = io();
+
+    socket.on("ats_data", (data) => {
+      console.log("Nhận dữ liệu:", data);
+      updateData("gen1", data.gen1);
+      updateData("gen2", data.gen2);
+      const now = new Date().toLocaleTimeString('vi-VN', { hour12: false });
+      const time1 = document.getElementById("updated-time-gen1");
+      if (time1) time1.textContent = now;
+      const time2 = document.getElementById("updated-time-gen2");
+      if (time2) time2.textContent = now;
+    });
+
+    function updateData(prefix, data) {
+      for (const [key, val] of Object.entries(data)) {
+        const el = document.getElementById(`${prefix}-${key}`);
+        if (!el) continue;
+
+        const current = parseFloat(el.textContent);
+        const newValue = (key.startsWith("pha")) ?
+          (val >= 3276.5 ? "-" : val.toFixed(1) + "°") :
+          (key.startsWith("freq")) ?
+            (val <= 0.1 ? "-" : val.toFixed(2)) :
+            parseFloat(val).toFixed(1);
+
+        if (!isNaN(current) && !isNaN(parseFloat(newValue))) {
+          if (parseFloat(newValue) > current) el.style.color = "red";
+          else if (parseFloat(newValue) < current) el.style.color = "green";
+          else el.style.color = "black";
+        }
+
+        el.textContent = newValue;
+      }
+    }
+
+    window.sendControl = function (id, action) {
+      if (!confirm(`Xác nhận gửi lệnh ${action} đến ATS ${id}?`)) return;
+      fetch('/api/modbus/control', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ generatorId: id, action })
+      });
+    }
+  });
+</script>
+{% endblock %}

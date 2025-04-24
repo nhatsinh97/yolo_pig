@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- nội dung -->
+
+
+<!-- page content -->
+
+<style>
+  .ats-wrapper .card {
+    border-radius: 0.75rem;
+    background: white;
+    padding: 1rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    color: #333;
+  }
+
+  .card {
+    border-radius: 0.75rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    padding: 1rem;
+  }
+
+  .ats-wrapper h5,
+  .ats-wrapper h6,
+  .ats-wrapper p,
+  .ats-wrapper strong {
+    color: #333;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+
+  .ats-wrapper .phase-col {
+    background: #f8f9fa;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    font-size: 13px;
+  }
+
+  .ats-wrapper .phase-col p {
+    margin: 0;
+    font-size: 13px;
+  }
+
+  .ats-wrapper .text-primary {
+    color: #007bff;
+  }
+
+  .ats-wrapper .text-secondary {
+    color: #6c757d;
+  }
+
+  .ats-wrapper .text-danger {
+    color: #dc3545;
+  }
+
+  .ats-wrapper .btn {
+    font-size: 13px;
+    padding: 4px 10px;
+    margin: 2px;
+  }
+
+  .ats-wrapper canvas {
+    background: #fff;
+    border-radius: 4px;
+    margin-top: 8px;
+  }
+</style>
+<style>
+  .full-background {
+    margin: 0;
+    padding: 0;
+  }
+
+  .bg-image {
+  min-height: 100vh;
+  background: url('/static/view.jpg') no-repeat center center;
+  background-size: cover;
+  padding: 20px;
+  position: relative;
+}
+
+</style>
+
+
+
+<!-- top tiles -->
+
+<!-- /top tiles -->
+<div class="row">
+  <div class="col-md-12 col-sm-12 bg-image" style="position: relative;">
+
+    <!-- Tiêu đề -->
+    <div class="overlay-box title-box">
+      Farm Tây Ninh 4 – hệ thống giám sát trang trại thông minh
+    </div>
+
+    <!-- Hồ xử lý -->
+    <div class="overlay-box box-pond">
+      <strong>Hồ xử lý</strong><br>
+      Clo: <span id="pond_cl">4</span> ppm
+    </div>
+
+    <!-- Khu R&D -->
+    <div class="overlay-box box-rd">
+      <strong>Khu R&D</strong><br>
+      Điện năng: <span id="rd_power">28.3</span> kWh
+    </div>
+
+  </div>
+
+
+
+
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script>
+    const socket = io();
+    const chartGen1 = createCurrentChart("chart-gen1");
+    const chartGen2 = createCurrentChart("chart-gen2");
+
+    socket.on("ats_data", (data) => {
+      updateData("gen1", data.gen1);
+      updateData("gen2", data.gen2);
+      updateChart(chartGen1, data.gen1.ia, data.gen1.ib, data.gen1.ic);
+      updateChart(chartGen2, data.gen2.ia, data.gen2.ib, data.gen2.ic);
+      const now = new Date().toLocaleTimeString('vi-VN', { hour12: false });
+      document.getElementById("updated-time-gen1").textContent = now;
+      document.getElementById("updated-time-gen2").textContent = now;
+    });
+
+    function displayPhase(val) {
+      return val >= 3276.5 ? "-" : val.toFixed(1) + "°";
+    }
+
+    function displayFreq(val) {
+      return val <= 0.1 ? "-" : val.toFixed(2);
+    }
+
+    function updateData(prefix, data) {
+      for (const [key, val] of Object.entries(data)) {
+        const el = document.getElementById(`${prefix}-${key}`);
+        if (!el) continue;
+        if (key.startsWith("pha")) {
+          el.textContent = displayPhase(val);
+        } else if (key.startsWith("freq")) {
+          el.textContent = displayFreq(val);
+        } else {
+          el.textContent = val;
+        }
+      }
+    }
+
+    function sendControl(id, action) {
+      fetch('/api/modbus/control', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ generatorId: id, action })
+      })
+        .then(res => res.json())
+        .then(res => {
+          document.getElementById(`status${id}`).textContent = res.message || 'Đã gửi lệnh';
+        })
+        .catch(() => {
+          document.getElementById(`status${id}`).textContent = 'Lỗi gửi lệnh';
+        });
+    }
+
+    function createCurrentChart(canvasId) {
+      const ctx = document.getElementById(canvasId).getContext("2d");
+      return new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: [],
+          datasets: [
+            { label: "Pha A", data: [], borderWidth: 1, borderColor: 'red' },
+            { label: "Pha B", data: [], borderWidth: 1, borderColor: 'green' },
+            { label: "Pha C", data: [], borderWidth: 1, borderColor: 'blue' }
+          ]
+        },
+        options: {
+          responsive: true,
+          animation: false,
+          scales: {
+            x: { ticks: { maxTicksLimit: 5 } },
+            y: { beginAtZero: true }
+          }
+        }
+      });
+    }
+
+    function updateChart(chart, ia, ib, ic) {
+      const now = new Date().toLocaleTimeString('vi-VN', { hour12: false });
+      const data = chart.data;
+      data.labels.push(now);
+      data.datasets[0].data.push(ia);
+      data.datasets[1].data.push(ib);
+      data.datasets[2].data.push(ic);
+      if (data.labels.length > 10) {
+        data.labels.shift();
+        data.datasets.forEach(ds => ds.data.shift());
+      }
+      chart.update();
+    }
+  </script>
+  {% endblock %}

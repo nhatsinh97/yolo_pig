@@ -1,0 +1,1138 @@
+<!-- page content -->
+
+<style>
+  .ats-wrapper .card {
+    border-radius: 0.75rem;
+    background: white;
+    padding: 1rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    color: #333;
+  }
+
+  .card {
+    border-radius: 0.75rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    padding: 1rem;
+  }
+
+  .ats-wrapper h5,
+  .ats-wrapper h6,
+  .ats-wrapper p,
+  .ats-wrapper strong {
+    color: #333;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+
+  .ats-wrapper .phase-col {
+    background: #f8f9fa;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    font-size: 13px;
+  }
+
+  .ats-wrapper .phase-col p {
+    margin: 0;
+    font-size: 13px;
+  }
+
+  .ats-wrapper .text-primary {
+    color: #007bff;
+  }
+
+  .ats-wrapper .text-secondary {
+    color: #6c757d;
+  }
+
+  .ats-wrapper .text-danger {
+    color: #dc3545;
+  }
+
+  .ats-wrapper .btn {
+    font-size: 13px;
+    padding: 4px 10px;
+    margin: 2px;
+  }
+
+  .ats-wrapper canvas {
+    background: #fff;
+    border-radius: 4px;
+    margin-top: 8px;
+  }
+</style>
+
+
+
+<!-- top tiles -->
+<div class="row" style="display: inline-block;">
+  <div class="tile_count">
+    <div class="col-md-2 col-sm-4  tile_stats_count">
+      <span class="count_top"><i class="fa fa-user"></i> Devices</span>
+      <div class="count">{{ total_devices }}</div>
+      <span class="count_bottom"><i class="green">100% </i>Thiết bị iot</span>
+    </div>
+    <div class="col-md-2 col-sm-4  tile_stats_count">
+      <span class="count_top"><i class="fa fa-clock-o"></i> Online</span>
+      <div class="count">{{ online_devices }}</div>
+      <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>100% </i> test</span>
+    </div>
+    <div class="col-md-2 col-sm-4  tile_stats_count">
+      <span class="count_top"><i class="fa-solid fa-signal"></i> Offline</span>
+      <div class="count green">{{ offline_devices }}</div>
+      <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>0% </i> From last Week</span>
+    </div>
+    <div class="col-md-2 col-sm-4  tile_stats_count">
+      <span class="count_top"><i class="fa fa-user"></i> Total Request</span>
+      <div class="count">{{ totalRequests }}</div>
+      <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span>
+    </div>
+  </div>
+</div>
+<!-- /top tiles -->
+
+<div class="row">
+  <div class="col-md-12 col-sm-12 ">
+    <div class="dashboard_graph">
+      <div class="row x_title">
+        <!-- <div class="col-md-6"> -->
+        <div class="ats-wrapper">
+          <!-- dong dien -->
+          <div class="row g-3">
+            <!-- ATS 1 -->
+            <div class="col-md-6">
+              <div class="card">
+                <!-- <h5 class="text-primary">NGUỒN 1</h5> -->
+                <h5 class="text-center bg-success text-white py-2 rounded">NGUỒN 1</h5>
+
+
+                <h6 class="text-primary">Thông số điện lưới ATS 1</h6>
+                <div class="row mb-2">
+                  <div class="col phase-col align-reading border border-secondary rounded p-2 me-2">
+                    <strong>Pha A</strong>
+                    <p>UAB: <span id="gen1-uab1">-</span></p>
+                    <p>UA: <span id="gen1-ua1">-</span></p>
+                    <p>Góc pha: <span id="gen1-phaA1">-</span></p>
+                  </div>
+                  <div class="col phase-col align-reading border border-secondary rounded p-2 me-2">
+                    <strong>Pha B</strong>
+                    <p>UBC: <span id="gen1-ubc1">-</span></p>
+                    <p>UB: <span id="gen1-ub1">-</span></p>
+                    <p>Góc pha: <span id="gen1-phaB1">-</span></p>
+                  </div>
+                  <div class="col phase-col align-reading border border-secondary rounded p-2">
+                    <strong>Pha C</strong>
+                    <p>UCA: <span id="gen1-uca1">-</span></p>
+                    <p>UC: <span id="gen1-uc1">-</span></p>
+                    <p>Góc pha: <span id="gen1-phaC1">-</span></p>
+                  </div>
+                </div>
+
+                <p>Tần số điện lưới: <span id="gen1-freq1">-</span> Hz</p>
+
+                <h6 class="text-primary">Thông số máy phát 1</h6>
+                <div class="row mb-2">
+                  <div class="col phase-col align-reading border border-secondary rounded p-2 me-2">
+                    <strong>Pha A</strong>
+                    <p>UAB: <span id="gen1-uab2">-</span></p>
+                    <p>UA: <span id="gen1-ua2">-</span></p>
+                    <p>Góc pha: <span id="gen1-phaA2">-</span></p>
+                  </div>
+                  <div class="col phase-col align-reading border border-secondary rounded p-2 me-2">
+                    <strong>Pha B</strong>
+                    <p>UBC: <span id="gen1-ubc2">-</span></p>
+                    <p>UB: <span id="gen1-ub2">-</span></p>
+                    <p>Góc pha: <span id="gen1-phaB2">-</span></p>
+                  </div>
+                  <div class="col phase-col align-reading border border-secondary rounded p-2">
+                    <strong>Pha C</strong>
+                    <p>UCA: <span id="gen1-uca2">-</span></p>
+                    <p>UC: <span id="gen1-uc2">-</span></p>
+                    <p>Góc pha: <span id="gen1-phaC2">-</span></p>
+                  </div>
+                </div>
+
+                <p>Tần số máy phát: <span id="gen1-freq2">-</span> Hz</p>
+
+                <h6 class="text-primary">Thông số dòng điện tổng ATS 1</h6>
+                <div class="row mb-2">
+                  <div class="col phase-col border border-secondary rounded p-2 me-2">
+                    <strong>Pha A</strong>
+                    <p>Dòng điện pha A: <span id="gen1-ia">-</span> A</p>
+                  </div>
+                  <div class="col phase-col border border-secondary rounded p-2 me-2">
+                    <strong>Pha B</strong>
+                    <p>Dòng điện pha B: <span id="gen1-ib">-</span> A</p>
+                  </div>
+                  <div class="col phase-col border border-secondary rounded p-2">
+                    <strong>Pha C</strong>
+                    <p>Dòng điện pha C: <span id="gen1-ic">-</span> A</p>
+                  </div>
+                </div>
+
+                <canvas id="chart-gen1" height="220"></canvas>
+                <p class="text-muted small">Cập nhật: <span id="updated-time-gen1">-</span></p>
+
+                <div class="control-buttons text-center">
+                  <button class="btn btn-primary" onclick="sendControl(1, 'start')">Khởi động</button>
+                  <button class="btn btn-danger" onclick="sendControl(1, 'stop')">Tắt</button>
+                  <button class="btn btn-success" onclick="sendControl(1, 'acb_on')">Đóng ACB</button>
+                  <button class="btn btn-warning" onclick="sendControl(1, 'acb_off')">Ngắt ACB</button>
+                </div>
+
+                <div class="text-center text-danger fw-bold mt-1" id="status1"></div>
+              </div>
+            </div>
+
+
+            <!-- ATS 2 -->
+            <div class="col-md-6">
+              <div class="card">
+                <!-- <h5 class="text-primary">NGUỒN 2</h5> -->
+                <h5 class="text-center bg-success text-white py-2 rounded">NGUỒN 2</h5>
+
+                <h6 class="text-primary">Thông số điện lưới ATS 2</h6>
+                <div class="row mb-2">
+                  <div class="col phase-col align-reading border border-secondary rounded p-2 me-2">
+                    <strong>Pha A</strong>
+                    <p>UAB: <span id="gen2-uab1">-</span></p>
+                    <p>UA: <span id="gen2-ua1">-</span></p>
+                    <p>Góc pha: <span id="gen2-phaA1">-</span></p>
+                  </div>
+                  <div class="col phase-col align-reading border border-secondary rounded p-2 me-2">
+                    <strong>Pha B</strong>
+                    <p>UBC: <span id="gen2-ubc1">-</span></p>
+                    <p>UB: <span id="gen2-ub1">-</span></p>
+                    <p>Góc pha: <span id="gen2-phaB1">-</span></p>
+                  </div>
+                  <div class="col phase-col align-reading border border-secondary rounded p-2">
+                    <strong>Pha C</strong>
+                    <p>UCA: <span id="gen2-uca1">-</span></p>
+                    <p>UC: <span id="gen2-uc1">-</span></p>
+                    <p>Góc pha: <span id="gen2-phaC1">-</span></p>
+                  </div>
+                </div>
+
+
+                <p>Tần số điện lưới: <span id="gen2-freq1">-</span> Hz</p>
+
+                <h6 class="text-primary">Thông số máy phát 2</h6>
+                <div class="row mb-2">
+                  <div class="col phase-col align-reading border border-secondary rounded p-2 me-2">
+                    <strong>Pha A</strong>
+                    <p>UAB: <span id="gen2-uab2">-</span></p>
+                    <p>UA: <span id="gen2-ua2">-</span></p>
+                    <p>Góc pha: <span id="gen2-phaA2">-</span></p>
+                  </div>
+                  <div class="col phase-col align-reading border border-secondary rounded p-2 me-2">
+                    <strong>Pha B</strong>
+                    <p>UBC: <span id="gen2-ubc2">-</span></p>
+                    <p>UB: <span id="gen2-ub2">-</span></p>
+                    <p>Góc pha: <span id="gen2-phaB2">-</span></p>
+                  </div>
+                  <div class="col phase-col align-reading border border-secondary rounded p-2">
+                    <strong>Pha C</strong>
+                    <p>UCA: <span id="gen2-uca2">-</span></p>
+                    <p>UC: <span id="gen2-uc2">-</span></p>
+                    <p>Góc pha: <span id="gen2-phaC2">-</span></p>
+                  </div>
+                </div>
+
+
+                <p>Tần số máy phát: <span id="gen2-freq2">-</span> Hz</p>
+                <h6 class="text-primary">Thông số dòng điện tổng ATS 2</h6>
+                <div class="row mb-2">
+                  <div class="col phase-col align-reading border border-secondary rounded p-2 me-2">
+                    <strong>Pha A</strong>
+                    <p>Dòng điện pha A: <span id="gen2-ia">-</span> A</p>
+                  </div>
+                  <div class="col phase-col align-reading border border-secondary rounded p-2 me-2">
+                    <strong>Pha B</strong>
+                    <p>Dòng điện pha B: <span id="gen2-ib">-</span> A</p>
+                  </div>
+                  <div class="col phase-col align-reading border border-secondary rounded p-2">
+                    <strong>Pha C</strong>
+                    <p>Dòng điện pha C: <span id="gen2-ic">-</span> A</p>
+                  </div>
+                </div>
+
+                <canvas id="chart-gen2" height="220"></canvas>
+                <p class="text-muted small">Cập nhật: <span id="updated-time-gen2">-</span></p>
+                <!-- test biểu đồ -->
+                <!-- Biểu đồ lịch sử ATS cho gen1 và gen2 -->
+
+                <!-- end -->
+                <div class="control-buttons text-center">
+                  <button class="btn btn-primary" onclick="sendControl(2, 'start')">Khởi động</button>
+                  <button class="btn btn-danger" onclick="sendControl(2, 'stop')">Tắt</button>
+                  <button class="btn btn-success" onclick="sendControl(2, 'acb_on')">Đóng ACB</button>
+                  <button class="btn btn-warning" onclick="sendControl(2, 'acb_off')">Ngắt ACB</button>
+                </div>
+                <div class="text-center text-danger fw-bold mt-1" id="status2"></div>
+              </div>
+            </div>
+          </div>
+          <script>
+            function setBlinkingStyle(el, newValue, oldValue, type = "") {
+              el.classList.remove("blink-red", "blink-green");
+
+              const val = parseFloat(newValue);
+              const prev = parseFloat(oldValue);
+
+              if (isNaN(val)) return;
+
+              if (["uab", "ubc", "uca"].some(k => el.id.includes(k))) {
+                if (val > 380) el.classList.add("blink-red");
+                else if (val < 380) el.classList.add("blink-green");
+              } else if (["ua", "ub", "uc"].some(k => el.id.includes(k))) {
+                if (val > 220) el.classList.add("blink-red");
+                else if (val < 220) el.classList.add("blink-green");
+              } else if (el.id.includes("freq")) {
+                if (val > 50) el.classList.add("blink-red");
+                else if (val < 50) el.classList.add("blink-green");
+              } else if (el.id.includes("phaB") && val > 120) {
+                el.classList.add("blink-red");
+              } else if (el.id.includes("phaB") && val < 120) {
+                el.classList.add("blink-green");
+              } else if (el.id.includes("phaC") && val > 240) {
+                el.classList.add("blink-red");
+              } else if (el.id.includes("phaC") && val < 240) {
+                el.classList.add("blink-green");
+              } else if (["ia", "ib", "ic"].some(k => el.id.endsWith(k))) {
+                if (val > prev) el.classList.add("blink-red");
+                else if (val < prev) el.classList.add("blink-green");
+              }
+            }
+
+            function updateData(prefix, data) {
+              for (const [key, val] of Object.entries(data)) {
+                const el = document.getElementById(`${prefix}-${key}`);
+                if (!el) continue;
+
+                const current = parseFloat(el.textContent);
+                const newValue = (key.startsWith("pha")) ? displayPhase(val) :
+                  (key.startsWith("freq")) ? displayFreq(val) :
+                    parseFloat(val).toFixed(1);
+
+                // Thêm hiệu ứng nhấp nháy tùy điều kiện
+                setBlinkingStyle(el, newValue, current, key);
+
+                el.textContent = newValue;
+              }
+            }
+          </script>
+          <!-- dong dien -->
+          <!-- //////// -->
+
+          <!-- test -->
+        </div>
+      </div>
+      <!-- Bieu do  -->
+      <div class="col-md-9 col-sm-9 ">
+        <table class="" style="width:100%">
+          <tr>
+            <th style="width:37%;">
+              <p>Top 5</p>
+            </th>
+            <th>
+              <div class="col-lg-7 col-md-7 col-sm-7 ">
+                <p class="">Device</p>
+              </div>
+              <div class="col-lg-5 col-md-5 col-sm-5 ">
+                <p class="">Progress</p>
+              </div>
+            </th>
+          </tr>
+          <tr>
+            <td>
+              <canvas class="canvasDoughnut" height="140" width="140" style="margin: 15px 10px 10px 0"></canvas>
+            </td>
+
+            <td>
+              <table class="tile_info">
+                <tr>
+                  <td>
+                    <p><i class="fa fa-square blue"></i>IOS </p>
+                  </td>
+                  <td>30%</td>
+                </tr>
+                <tr>
+                  <td>
+                    <p><i class="fa fa-square green"></i>Android </p>
+                  </td>
+                  <td>10%</td>
+                </tr>
+                <tr>
+                  <td>
+                    <p><i class="fa fa-square purple"></i>Blackberry </p>
+                  </td>
+                  <td>20%</td>
+                </tr>
+                <tr>
+                  <td>
+                    <p><i class="fa fa-square aero"></i>Symbian </p>
+                  </td>
+                  <td>15%</td>
+                </tr>
+                <tr>
+                  <td>
+                    <p><i class="fa fa-square red"></i>Others </p>
+                  </td>
+                  <td>30%</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-md-3 col-sm-3 bg-white">
+        <div class="x_title">
+          <h2>Top 5 bộ thiết bị IOT</h2>
+          <div class="clearfix"></div>
+        </div>
+
+        <div class="col-md-12 col-sm-12" id="topDevicesContainer">
+          <!-- Thông tin top 5 chipid sẽ được cập nhật tại đây -->
+        </div>
+        <style>
+          .progress-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+          }
+
+          .chip-id {
+            width: 25%;
+          }
+
+          .progress-wrapper {
+            width: 50%;
+            margin: 0 10px;
+          }
+
+          .progress.progress_sm {
+            height: 10px;
+            background-color: #f0f0f0;
+          }
+
+          .progress-bar {
+            transition: width 0.6s ease;
+          }
+
+          .request-count {
+            width: 15%;
+            text-align: right;
+          }
+        </style>
+      </div>
+
+
+      <!-- ///////////////////////////////////////////////////// -->
+      <div class="col-md-3 col-sm-3  bg-white">
+
+        <div class="col-md-12 col-sm-12 ">
+
+
+        </div>
+        <div class="col-md-12 col-sm-12 ">
+
+
+        </div>
+
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+
+</div>
+<br />
+
+<div class="row">
+
+
+  <div class="col-md-4 col-sm-4 ">
+    <div class="x_panel tile fixed_height_320">
+      <div class="x_title">
+        <h2>App Versions</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i
+                class="fa fa-wrench"></i></a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="#">Settings 1</a>
+              <a class="dropdown-item" href="#">Settings 2</a>
+            </div>
+          </li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <h4>Số request theo địa chỉ ip</h4>
+        <div class="widget_summary">
+          <div class="w_left w_25">
+            <span>0.1.5.2</span>
+          </div>
+          <div class="w_center w_55">
+            <div class="progress">
+              <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                aria-valuemax="100" style="width: 66%;">
+                <span class="sr-only">10% Complete</span>
+              </div>
+            </div>
+          </div>
+          <div class="w_right w_20">
+            <span>10</span>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+
+        <div class="widget_summary">
+          <div class="w_left w_25">
+            <span>0.1.5.3</span>
+          </div>
+          <div class="w_center w_55">
+            <div class="progress">
+              <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                aria-valuemax="100" style="width: 45%;">
+                <span class="sr-only">60% Complete</span>
+              </div>
+            </div>
+          </div>
+          <div class="w_right w_20">
+            <span>53k</span>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="widget_summary">
+          <div class="w_left w_25">
+            <span>0.1.5.4</span>
+          </div>
+          <div class="w_center w_55">
+            <div class="progress">
+              <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                aria-valuemax="100" style="width: 25%;">
+                <span class="sr-only">60% Complete</span>
+              </div>
+            </div>
+          </div>
+          <div class="w_right w_20">
+            <span>23k</span>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="widget_summary">
+          <div class="w_left w_25">
+            <span>0.1.5.5</span>
+          </div>
+          <div class="w_center w_55">
+            <div class="progress">
+              <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                aria-valuemax="100" style="width: 5%;">
+                <span class="sr-only">60% Complete</span>
+              </div>
+            </div>
+          </div>
+          <div class="w_right w_20">
+            <span>3k</span>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="widget_summary">
+          <div class="w_left w_25">
+            <span>0.1.5.6</span>
+          </div>
+          <div class="w_center w_55">
+            <div class="progress">
+              <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                aria-valuemax="100" style="width: 2%;">
+                <span class="sr-only">60% Complete</span>
+              </div>
+            </div>
+          </div>
+          <div class="w_right w_20">
+            <span>1k</span>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 col-sm-4 ">
+    <div class="x_panel tile fixed_height_320 overflow_hidden">
+      <div class="x_title">
+        <h2>Device Usage</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i
+                class="fa fa-wrench"></i></a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="#">Settings 1</a>
+              <a class="dropdown-item" href="#">Settings 2</a>
+            </div>
+          </li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <!--  -->
+        <table class="" style="width:100%">
+          <tr>
+            <th style="width:37%;">
+              <p>Top 5</p>
+            </th>
+            <th>
+              <div class="col-lg-7 col-md-7 col-sm-7 ">
+                <p class="">Device</p>
+              </div>
+              <div class="col-lg-5 col-md-5 col-sm-5 ">
+                <p class="">Progress</p>
+              </div>
+            </th>
+          </tr>
+          <tr>
+            <td>
+              <canvas class="canvasDoughnut" height="140" width="140" style="margin: 15px 10px 10px 0"></canvas>
+            </td>
+            <td>
+              <table class="tile_info">
+                <tr>
+                  <td>
+                    <p><i class="fa fa-square blue"></i>IOS </p>
+                  </td>
+                  <td>30%</td>
+                </tr>
+                <tr>
+                  <td>
+                    <p><i class="fa fa-square green"></i>Android </p>
+                  </td>
+                  <td>10%</td>
+                </tr>
+                <tr>
+                  <td>
+                    <p><i class="fa fa-square purple"></i>Blackberry </p>
+                  </td>
+                  <td>20%</td>
+                </tr>
+                <tr>
+                  <td>
+                    <p><i class="fa fa-square aero"></i>Symbian </p>
+                  </td>
+                  <td>15%</td>
+                </tr>
+                <tr>
+                  <td>
+                    <p><i class="fa fa-square red"></i>Others </p>
+                  </td>
+                  <td>30%</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-md-4 col-sm-4 ">
+    <div class="x_panel tile fixed_height_320">
+      <div class="x_title">
+        <h2>Quick Settings</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i
+                class="fa fa-wrench"></i></a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="#">Settings 1</a>
+              <a class="dropdown-item" href="#">Settings 2</a>
+            </div>
+          </li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <div class="dashboard-widget-content">
+          <ul class="quick-list">
+            <li><i class="fa fa-calendar-o"></i><a href="#">Settings</a>
+            </li>
+            <li><i class="fa fa-bars"></i><a href="#">Subscription</a>
+            </li>
+            <li><i class="fa fa-bar-chart"></i><a href="#">Auto Renewal</a> </li>
+            <li><i class="fa fa-line-chart"></i><a href="#">Achievements</a>
+            </li>
+            <li><i class="fa fa-bar-chart"></i><a href="#">Auto Renewal</a> </li>
+            <li><i class="fa fa-line-chart"></i><a href="#">Achievements</a>
+            </li>
+            <li><i class="fa fa-area-chart"></i><a href="#">Logout</a>
+            </li>
+          </ul>
+
+          <div class="sidebar-widget">
+            <h4>Profile Completion</h4>
+            <canvas width="150" height="80" id="chart_gauge_01" class="" style="width: 160px; height: 100px;"></canvas>
+            <div class="goal-wrapper">
+              <span id="gauge-text" class="gauge-value pull-left">0</span>
+              <span class="gauge-value pull-left">%</span>
+              <span id="goal-text" class="goal-value pull-right">100%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="row">
+  <div class="col-md-4 col-sm-4 ">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Recent Activities <small>Sessions</small></h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i
+                class="fa fa-wrench"></i></a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="#">Settings 1</a>
+              <a class="dropdown-item" href="#">Settings 2</a>
+            </div>
+          </li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <div class="dashboard-widget-content">
+
+          <ul class="list-unstyled timeline widget">
+            <li>
+              <div class="block">
+                <div class="block_content">
+                  <h2 class="title">
+                    <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
+                  </h2>
+                  <div class="byline">
+                    <span>13 hours ago</span> by <a>Jane Smith</a>
+                  </div>
+                  <p class="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you
+                    met the producers that could fund your project, and if the buyers liked your flick, they’d pay to
+                    Fast-forward and… <a>Read&nbsp;More</a>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="block">
+                <div class="block_content">
+                  <h2 class="title">
+                    <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
+                  </h2>
+                  <div class="byline">
+                    <span>13 hours ago</span> by <a>Jane Smith</a>
+                  </div>
+                  <p class="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you
+                    met the producers that could fund your project, and if the buyers liked your flick, they’d pay to
+                    Fast-forward and… <a>Read&nbsp;More</a>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="block">
+                <div class="block_content">
+                  <h2 class="title">
+                    <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
+                  </h2>
+                  <div class="byline">
+                    <span>13 hours ago</span> by <a>Jane Smith</a>
+                  </div>
+                  <p class="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you
+                    met the producers that could fund your project, and if the buyers liked your flick, they’d pay to
+                    Fast-forward and… <a>Read&nbsp;More</a>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="block">
+                <div class="block_content">
+                  <h2 class="title">
+                    <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
+                  </h2>
+                  <div class="byline">
+                    <span>13 hours ago</span> by <a>Jane Smith</a>
+                  </div>
+                  <p class="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you
+                    met the producers that could fund your project, and if the buyers liked your flick, they’d pay to
+                    Fast-forward and… <a>Read&nbsp;More</a>
+                  </p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-md-8 col-sm-8 ">
+
+
+
+    <div class="row">
+
+      <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>Visitors location <small>geo-presentation</small></h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i
+                    class="fa fa-wrench"></i></a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="#">Settings 1</a>
+                  <a class="dropdown-item" href="#">Settings 2</a>
+                </div>
+              </li>
+              <li><a class="close-link"><i class="fa fa-close"></i></a>
+              </li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+            <div class="dashboard-widget-content">
+              <div class="col-md-4 hidden-small">
+                <h2 class="line_30">125.7k Views from 60 countries</h2>
+
+                <table class="countries_list">
+                  <tbody>
+                    <tr>
+                      <td>United States</td>
+                      <td class="fs15 fw700 text-right">33%</td>
+                    </tr>
+                    <tr>
+                      <td>France</td>
+                      <td class="fs15 fw700 text-right">27%</td>
+                    </tr>
+                    <tr>
+                      <td>Germany</td>
+                      <td class="fs15 fw700 text-right">16%</td>
+                    </tr>
+                    <tr>
+                      <td>Spain</td>
+                      <td class="fs15 fw700 text-right">11%</td>
+                    </tr>
+                    <tr>
+                      <td>Britain</td>
+                      <td class="fs15 fw700 text-right">10%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div id="world-map-gdp" class="col-md-8 col-sm-12 " style="height:230px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row">
+
+
+      <!-- Start to do list -->
+      <div class="col-md-6 col-sm-6 ">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>To Do List <small>Sample tasks</small></h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i
+                    class="fa fa-wrench"></i></a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="#">Settings 1</a>
+                  <a class="dropdown-item" href="#">Settings 2</a>
+                </div>
+              </li>
+              <li><a class="close-link"><i class="fa fa-close"></i></a>
+              </li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+
+            <div class="">
+              <ul class="to_do">
+                <li>
+                  <p>
+                    <input type="checkbox" class="flat"> Schedule meeting with new client
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <input type="checkbox" class="flat"> Create email address for new intern
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <input type="checkbox" class="flat"> Have IT fix the network printer
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <input type="checkbox" class="flat"> Copy backups to offsite location
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <input type="checkbox" class="flat"> Food truck fixie locavors mcsweeney
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <input type="checkbox" class="flat"> Food truck fixie locavors mcsweeney
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <input type="checkbox" class="flat"> Create email address for new intern
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <input type="checkbox" class="flat"> Have IT fix the network printer
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <input type="checkbox" class="flat"> Copy backups to offsite location
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End to do list -->
+
+      <!-- start of weather widget -->
+      <div class="col-md-6 col-sm-6 ">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>Daily active users <small>Sessions</small></h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i
+                    class="fa fa-wrench"></i></a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="#">Settings 1</a>
+                  <a class="dropdown-item" href="#">Settings 2</a>
+                </div>
+              </li>
+              <li><a class="close-link"><i class="fa fa-close"></i></a>
+              </li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="temperature"><b>Monday</b>, 07:30 AM
+                  <span>F</span>
+                  <span><b>C</b></span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="weather-icon">
+                  <canvas height="84" width="84" id="partly-cloudy-day"></canvas>
+                </div>
+              </div>
+              <div class="col-sm-8">
+                <div class="weather-text">
+                  <h2>Texas <br><i>Partly Cloudy Day</i></h2>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <div class="weather-text pull-right">
+                <h3 class="degrees">23</h3>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="row weather-days">
+              <div class="col-sm-2">
+                <div class="daily-weather">
+                  <h2 class="day">Mon</h2>
+                  <h3 class="degrees">25</h3>
+                  <canvas id="clear-day" width="32" height="32"></canvas>
+                  <h5>15 <i>km/h</i></h5>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="daily-weather">
+                  <h2 class="day">Tue</h2>
+                  <h3 class="degrees">25</h3>
+                  <canvas height="32" width="32" id="rain"></canvas>
+                  <h5>12 <i>km/h</i></h5>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="daily-weather">
+                  <h2 class="day">Wed</h2>
+                  <h3 class="degrees">27</h3>
+                  <canvas height="32" width="32" id="snow"></canvas>
+                  <h5>14 <i>km/h</i></h5>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="daily-weather">
+                  <h2 class="day">Thu</h2>
+                  <h3 class="degrees">28</h3>
+                  <canvas height="32" width="32" id="sleet"></canvas>
+                  <h5>15 <i>km/h</i></h5>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="daily-weather">
+                  <h2 class="day">Fri</h2>
+                  <h3 class="degrees">28</h3>
+                  <canvas height="32" width="32" id="wind"></canvas>
+                  <h5>11 <i>km/h</i></h5>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="daily-weather">
+                  <h2 class="day">Sat</h2>
+                  <h3 class="degrees">26</h3>
+                  <canvas height="32" width="32" id="cloudy"></canvas>
+                  <h5>10 <i>km/h</i></h5>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- end of weather widget -->
+    </div>
+  </div>
+</div>
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<script>
+  const socket = io();
+  const chartGen1 = createCurrentChart("chart-gen1");
+  const chartGen2 = createCurrentChart("chart-gen2");
+
+  socket.on("ats_data", (data) => {
+    updateData("gen1", data.gen1);
+    updateData("gen2", data.gen2);
+    updateChart(chartGen1, data.gen1.ia, data.gen1.ib, data.gen1.ic);
+    updateChart(chartGen2, data.gen2.ia, data.gen2.ib, data.gen2.ic);
+    const now = new Date().toLocaleTimeString('vi-VN', { hour12: false });
+    document.getElementById("updated-time-gen1").textContent = now;
+    document.getElementById("updated-time-gen2").textContent = now;
+  });
+
+  function displayPhase(val) {
+    return val >= 3276.5 ? "-" : val.toFixed(1) + "°";
+  }
+
+  function displayFreq(val) {
+    return val <= 0.1 ? "-" : val.toFixed(2);
+  }
+
+  function updateData(prefix, data) {
+    for (const [key, val] of Object.entries(data)) {
+      const el = document.getElementById(`${prefix}-${key}`);
+      if (!el) continue;
+      if (key.startsWith("pha")) {
+        el.textContent = displayPhase(val);
+      } else if (key.startsWith("freq")) {
+        el.textContent = displayFreq(val);
+      } else {
+        el.textContent = val;
+      }
+    }
+  }
+
+  function sendControl(id, action) {
+    fetch('/api/modbus/control', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ generatorId: id, action })
+    })
+      .then(res => res.json())
+      .then(res => {
+        document.getElementById(`status${id}`).textContent = res.message || 'Đã gửi lệnh';
+      })
+      .catch(() => {
+        document.getElementById(`status${id}`).textContent = 'Lỗi gửi lệnh';
+      });
+  }
+
+  function createCurrentChart(canvasId) {
+    const ctx = document.getElementById(canvasId).getContext("2d");
+    return new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: [],
+        datasets: [
+          { label: "Pha A", data: [], borderWidth: 1, borderColor: 'red' },
+          { label: "Pha B", data: [], borderWidth: 1, borderColor: 'green' },
+          { label: "Pha C", data: [], borderWidth: 1, borderColor: 'blue' }
+        ]
+      },
+      options: {
+        responsive: true,
+        animation: false,
+        scales: {
+          x: { ticks: { maxTicksLimit: 5 } },
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  }
+
+  function updateChart(chart, ia, ib, ic) {
+    const now = new Date().toLocaleTimeString('vi-VN', { hour12: false });
+    const data = chart.data;
+    data.labels.push(now);
+    data.datasets[0].data.push(ia);
+    data.datasets[1].data.push(ib);
+    data.datasets[2].data.push(ic);
+    if (data.labels.length > 10) {
+      data.labels.shift();
+      data.datasets.forEach(ds => ds.data.shift());
+    }
+    chart.update();
+  }
+</script>
