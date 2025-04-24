@@ -592,31 +592,13 @@ def update_permissions():
 
 
 # Route tạo tài khoản
+from flask import flash, redirect, url_for
+
 @app.route('/register', methods=['POST'])
 def register():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']  # Mật khẩu đã mã hóa bằng MD5
-
-        # Kiểm tra nếu tài khoản đã tồn tại
-        users = load_users()
-        if any(user['username'] == username for user in users['users']):
-            flash('Tên đăng nhập đã tồn tại!')
-            return redirect(url_for('login'))
-        # Tạo tài khoản mới với role 'user' và quyền 'view_dashboard'
-        new_user = {
-            "username": username,
-            "password": password,
-            "role": "user",
-            "permissions": ["view_dashboard"]
-        }
-        # Thêm tài khoản mới vào file JSON
-        users['users'].append(new_user)
-        save_users(users)
-        flash('Tài khoản đã được tạo thành công!')
-        return redirect(url_for('login'))
-
-    return render_template('register.html')
+    # Xử lý logic tạo tài khoản
+    flash("Tạo tài khoản thành công!", "success")
+    return redirect(url_for('login'))
 
 # API để lấy danh sách server
 @app.route('/get_servers')

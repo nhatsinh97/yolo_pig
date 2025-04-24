@@ -9444,3 +9444,10 @@
 2025-04-24 18:29:36,234 - INFO - [in d:\vs code\farm-iot\app.py:83] Start: GF-CICO
 2025-04-24 18:29:37,642 - INFO - [in d:\vs code\farm-iot\app.py:83] Start: GF-CICO
 2025-04-24 18:29:38,045 - CRITICAL - [in d:\vs code\farm-iot\app.py:212] event_data = {'idchip': 'PLC_LOGO_1', 'ip': '10.16.40.151', 'version': '123', 'name': 'uv3', 'status': 'start'}
+2025-04-24 18:29:44,064 - CRITICAL - [in d:\vs code\farm-iot\app.py:212] event_data = {'idchip': 'PLC_LOGO_1', 'ip': '10.16.40.151', 'version': '123', 'name': 'uv4', 'status': 'start'}
+2025-04-24 18:29:48,081 - CRITICAL - [in d:\vs code\farm-iot\app.py:212] event_data = {'idchip': 'PLC_LOGO_1', 'ip': '10.16.40.151', 'version': '123', 'name': 'uv3', 'status': 'start'}
+2025-04-24 18:29:59,052 - CRITICAL - [in d:\vs code\farm-iot\app.py:212] event_data = {'idchip': 'PLC_LOGO_1', 'ip': '10.16.40.151', 'version': '123', 'name': 'uv4', 'status': 'start'}
+2025-04-24 19:10:58,031 - CRITICAL - [in d:\vs code\farm-iot\app.py:212] event_data = {'idchip': 'PLC_LOGO_1', 'ip': '10.16.40.151', 'version': '123', 'name': 'uv3', 'status': 'end'}
+2025-04-24 19:11:08,032 - CRITICAL - [in d:\vs code\farm-iot\app.py:212] event_data = {'idchip': 'PLC_LOGO_1', 'ip': '10.16.40.151', 'version': '123', 'name': 'uv3', 'status': 'end'}
+2025-04-24 19:15:50,125 - INFO - [in d:\vs code\farm-iot\app.py:83] Start: GF-CICO
+2025-04-24 19:15:55,199 - ERROR - [in d:\vs code\farm-iot\app.py:268] MQTT Loop Error: timed out

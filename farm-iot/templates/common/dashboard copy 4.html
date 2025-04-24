@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+  }
+
+  gmp-map {
+    height: 100vh;
+    width: 100%;
+  }
+
+  .title-box {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px 20px;
+    border-radius: 8px;
+    z-index: 20;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+</style>
+
+<div class="row">
+  <div class="col-md-12 col-sm-12" style="position: relative;">
+    <!-- Tiêu đề -->
+    <!-- <div class="overlay-box title-box">
+      Farm Tây Ninh 4 – hệ thống giám sát trang trại thông minh
+    </div> -->
+
+    <!-- Google Map -->
+    <gmp-map center="10.9804, 106.6519" zoom="12" map-id="DEMO_MAP_ID" id="map">
+      <!-- Các marker sẽ được thêm động -->
+    </gmp-map>
+  </div>
+</div>
+
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap&libraries=marker&v=beta&solution_channel=GMP_CCS_infowindows_v2"
+  defer
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const socket = io();
+    const mapElement = document.getElementById("map");
+
+    // Hàm cập nhật vị trí thiết bị IoT
+    function updateDeviceLocation(deviceId, lat, lng, data) {
+      // Tạo marker mới
+      const marker = document.createElement("gmp-advanced-marker");
+      marker.setAttribute("position", `${lat}, ${lng}`);
+      marker.setAttribute("title", `Thiết bị ${deviceId}`);
+      marker.setAttribute("gmp-clickable", "");
+
+      // Thêm sự kiện click để hiển thị thông tin
+      const infoWindow = new google.maps.InfoWindow({
+        content: `
+          <div>
+            <strong>Thiết bị ${deviceId}</strong><br>
+            Điện áp: ${data.voltage || "--"} V<br>
+            Dòng điện: ${data.current || "--"} A<br>
+            Tần số: ${data.frequency || "--"} Hz
+          </div>
+        `,
+        ariaLabel: `Thiết bị ${deviceId}`,
+      });
+
+      marker.addEventListener("gmp-click", () => {
+        infoWindow.open({ anchor: marker });
+      });
+
+      // Thêm marker vào bản đồ
+      mapElement.appendChild(marker);
+    }
+
+    // Lắng nghe dữ liệu từ Socket.IO
+    socket.on("ats_data", (data) => {
+      console.log("Nhận dữ liệu:", data);
+
+      // Ví dụ: Cập nhật vị trí thiết bị gen1 và gen2
+      if (data.gen1) {
+        updateDeviceLocation("gen1", data.gen1.lat, data.gen1.lng, data.gen1);
+      }
+      if (data.gen2) {
+        updateDeviceLocation("gen2", data.gen2.lat, data.gen2.lng, data.gen2);
+      }
+    });
+  });
+</script>
+
+{% endblock %}

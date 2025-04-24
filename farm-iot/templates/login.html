@@ -5,10 +5,134 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang đăng nhập và đăng ký</title>
     <link rel="stylesheet" type="text/css" href="/static/login/login.css">
+    <style>
+        /* Cải thiện giao diện */
+        body {
+            font-family: Arial, sans-serif;
+            background: url('/static/images/background_tn4.png') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            border-radius: 10px;
+            box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
+            width: 210px; /* Thu hẹp chiều ngang form */
+            max-width: 90%;
+            padding: 15px; /* Giảm padding tổng thể */
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 15px; /* Giảm khoảng cách tiêu đề */
+            color: #333;
+            font-size: 18px; /* Giảm kích thước tiêu đề */
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 6px; /* Giảm padding để thu nhỏ chiều cao */
+            margin: 6px 0; /* Giảm khoảng cách giữa các input */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 12px; /* Giảm kích thước font chữ */
+        }
+
+        button {
+            width: 100%;
+            padding: 8px; /* Giảm padding nút bấm */
+            background: #6a11cb;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px; /* Giảm kích thước font chữ nút bấm */
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #2575fc;
+        }
+
+        p {
+            margin-top: 10px; /* Giảm khoảng cách giữa các đoạn văn */
+            font-size: 12px; /* Giảm kích thước font chữ */
+        }
+
+        a {
+            color: #6a11cb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .alert.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .form-container {
+                width: 50%;
+                max-width: 50%;
+                padding: 10px; /* Giảm padding trên thiết bị nhỏ */
+            }
+
+            h2 {
+                font-size: 16px; /* Giảm kích thước tiêu đề trên thiết bị nhỏ */
+            }
+
+            input[type="text"], input[type="password"] {
+                font-size: 10px; /* Giảm thêm font chữ trên thiết bị nhỏ */
+            }
+
+            button {
+                font-size: 12px; /* Giảm kích thước nút bấm */
+            }
+
+            p {
+                font-size: 10px; /* Giảm kích thước đoạn văn */
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="form-container">
-        <!-- Thêm khu vực hiển thị thông báo -->
+        <!-- Hiển thị thông báo -->
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
         <div id="flash-messages">
