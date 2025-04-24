@@ -1,3 +1,8 @@
+from http import client
+import sys
+import codecs
+sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
+
 import cv2
 import base64
 import uuid
@@ -25,6 +30,29 @@ import os
 from datetime import datetime, timedelta
 from influxdb import InfluxDBClient
 from ats_socket import start_ats_socketio_listener
+from dotenv import load_dotenv
+import os
+
+# Tải các biến môi trường từ file .env
+load_dotenv()
+
+# Khởi tạo Flask app
+app = Flask(__name__)
+
+# Sử dụng các biến từ .env
+app.secret_key = os.getenv("SECRET_KEY")
+
+# Thông tin kết nối InfluxDB
+host = os.getenv("INFLUXDB_HOST")
+port = int(os.getenv("INFLUXDB_PORT"))
+username = os.getenv("INFLUXDB_USERNAME")
+password = os.getenv("INFLUXDB_PASSWORD")
+database = os.getenv("INFLUXDB_DATABASE")
+
+# Thông tin MQTT
+BROKER_ADDRESS = os.getenv("MQTT_BROKER_ADDRESS")
+PORT = int(os.getenv("MQTT_PORT"))
+TOPIC = os.getenv("MQTT_TOPIC")
 
 
 # Tạo logger
@@ -54,27 +82,10 @@ if not logger.hasHandlers():
     logger.addHandler(file_handler)
 logger.info("Start: GF-CICO")
 
-# Thông tin kết nối
-host = 'localhost'  # hoặc địa chỉ IP của server InfluxDB
-port = 8086
-username = 'cico'
-password = '2020@GreenFeed'  # Đặt mật khẩu của bạn ở đây
-database = 'ats_data'
-
-# Tạo kết nối với InfluxDB
-client = InfluxDBClient(host=host, port=port, username=username, password=password, database=database)
-
-# Kiểm tra kết nối
-logger.info("Danh sách các cơ sở dữ liệu:")
-logger.info(client.get_list_database())
-
-# Chuyển sang sử dụng cơ sở dữ liệu cụ thể
-client.switch_database(database)
 
 # Tạo một hàng đợi để truyền dữ liệu giữa các luồng
 data_queue = queue.Queue()
 
-app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
 start_ats_socketio_listener(socketio)
 
@@ -83,10 +94,6 @@ app.secret_key = '4s$eJ#8dLpRtYkMnCbV2gX1fA3h'
 # app.config.from_object(Config)
 # app.register_blueprint(main)
 
-# Thông tin MQTT
-BROKER_ADDRESS = "10.50.41.15"
-PORT = 1883
-TOPIC = "PLC/LOGO/+"  # Dùng ký tự + để lắng nghe tất cả các topic con của PLC/LOGO
 
 # Đường dẫn tới tệp JSON
 FILE_PATH_SETUP = "./database/data_setup/data_setup.json"
@@ -247,7 +254,7 @@ def on_message(client, userdata, message):
 
 
 # Khởi tạo MQTT client bên ngoài hàm
-mqtt_client = mqtt.Client("Server_app")
+mqtt_client = mqtt.Client(client_id="Server_app", protocol=mqtt.MQTTv311, transport="tcp")
 mqtt_client.on_connect = on_connect
 mqtt_client.on_message = on_message
 
@@ -1241,6 +1248,7 @@ def uv_data(data):
 def generate_ticket_id():
     # Tạo ra một ID duy nhất bằng cách sử dụng UUID4
     return str(uuid.uuid4())
+
 def generate_unique_filename(mac_address, action_name):
     # Sử dụng UUID4 để tạo ra tên file duy nhất
     unique_id = str(uuid.uuid4())  # Tạo ra một ID duy nhất
@@ -1336,7 +1344,6 @@ def update_ticket_in_db(data):
                 "mac_address": data['mac_address'],
                 "action_name": data['action_name']  # Giữ lại thông tin hành động (start hoặc end)
             },
-            "time": datetime.utcnow().isoformat() + 'Z',  # Sử dụng timestamp hiện tại
             "fields": {
                 "status": data['action_name'],  # Cập nhật trạng thái
                 "timer": data.get('timer', 0),  # Lưu lại giá trị timer nếu có

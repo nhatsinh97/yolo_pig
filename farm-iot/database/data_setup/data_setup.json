@@ -26,16 +26,16 @@
                 "mac_address": "GF_TN4_CAMERA1",
                 "camera": "rtsp://admin:admin@2024!@10.16.40.72/cam/realmonitor?channel=1&subtype=0",
                 "timer": "87",
-                "status": "off",
-                "previous_status": "off",
+                "status": "on",
+                "previous_status": "on",
                 "previous_timer": "87"
             },
             "uv4": {
                 "mac_address": "GF_TN4_CAMERA3",
                 "camera": "rtsp://admin:admin@2024!@10.16.40.72/cam/realmonitor?channel=1&subtype=0",
                 "timer": "87",
-                "status": "off",
-                "previous_status": "off",
+                "status": "on",
+                "previous_status": "on",
                 "previous_timer": "30"
             },
             "uv5": {
